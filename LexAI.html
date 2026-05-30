@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LEXIA — Code Pénal</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Serif+Display:ital@0;1&family=Cinzel:wght@500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+[data-theme="light"]{
+  --bg:#f2f0ec;
+  --bg2:#e8e5df;
+  --paper:#ffffff;
+  --paper2:#f8f6f2;
+  --ink:#1c1917;
+  --ink2:#44403c;
+  --ink3:#78716c;
+  --gold:#a16207;
+  --gold2:#ca8a04;
+  --gold3:#fbbf24;
+  --gold-line:rgba(161,98,7,0.2);
+  --red:#b91c1c;
+  --red-bg:#fef2f2;
+  --red-border:#fecaca;
+  --amber:#92400e;
+  --amber-bg:#fffbeb;
+  --amber-border:#fde68a;
+  --green:#065f46;
+  --green-bg:#f0fdf4;
+  --green-border:#bbf7d0;
+  --blue:#1e40af;
+  --blue-bg:#eff6ff;
+  --blue-border:#bfdbfe;
+  --shadow:0 1px 3px rgba(0,0,0,0.08),0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md:0 4px 6px rgba(0,0,0,0.07),0 2px 4px rgba(0,0,0,0.04);
+}
+
+[data-theme="dark"]{
+  --bg:#0f0e0c;
+  --bg2:#1c1a17;
+  --paper:#1e1c19;
+  --paper2:#262420;
+  --ink:#f5f0e8;
+  --ink2:#d6cfc4;
+  --ink3:#8c8580;
+  --gold:#fbbf24;
+  --gold2:#f59e0b;
+  --gold3:#d97706;
+  --gold-line:rgba(251,191,36,0.18);
+  --red:#f87171;
+  --red-bg:rgba(248,113,113,0.08);
+  --red-border:rgba(248,113,113,0.25);
+  --amber:#fbbf24;
+  --amber-bg:rgba(251,191,36,0.08);
+  --amber-border:rgba(251,191,36,0.25);
+  --green:#34d399;
+  --green-bg:rgba(52,211,153,0.08);
+  --green-border:rgba(52,211,153,0.25);
+  --blue:#60a5fa;
+  --blue-bg:rgba(96,165,250,0.08);
+  --blue-border:rgba(96,165,250,0.25);
+  --shadow:0 1px 3px rgba(0,0,0,0.3),0 1px 2px rgba(0,0,0,0.2);
+  --shadow-md:0 4px 6px rgba(0,0,0,0.3),0 2px 4px rgba(0,0,0,0.2);
+}
+
+html{scroll-behavior:smooth}
+
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:'DM Sans',sans-serif;
+  font-size:15px;
+  line-height:1.65;
+  min-height:100vh;
+  transition:background 0.25s,color 0.25s;
+}
+
+.wrap{
+  max-width:1140px;
+  margin:0 auto;
+  padding:0 28px 100px;
+}
+
+.main-grid{
+  display:grid;
+  grid-template-columns:minmax(420px,1.4fr) minmax(260px,0.6fr);
+  gap:28px;
+  align-items:start;
+}
+
+.main-left,
+.main-right{
+  display:flex;
+  flex-direction:column;
+  gap:24px;
+  min-width:0;
+}
+
+.main-left{
+  align-items:center;
+}
+
+.main-left > *{
+  width:100%;
+  max-width:760px;
+}
+
+.main-right{
+  min-width:260px;
+}
+
+@media (max-width:920px){
+  .wrap{padding:0 18px 80px;}
+  .main-grid{display:block;}
+  .main-left,
+  .main-right{gap:18px;}
+}
+
+@media (max-width:640px){
+  .wrap{padding:0 14px 60px;}
+  header{flex-direction:column;align-items:flex-start;gap:18px;}
+  .theme-toggle{width:100%;justify-content:center;}
+}
+
+/* ===== HEADER ===== */
+header{
+  padding:44px 0 32px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  border-bottom:1px solid var(--gold-line);
+  margin-bottom:32px;
+}
+
+.header-left{display:flex;align-items:center;gap:14px}
+
+.logo-box{
+  width:40px;height:40px;
+  background:var(--ink);
+  display:flex;align-items:center;justify-content:center;
+  border-radius:8px;
+  flex-shrink:0;
+}
+.logo-box svg{width:20px;height:20px;stroke:#ffffff;stroke-width:1.8;fill:none}
+
+.header-titles h1{
+  font-family:'DM Serif Display',serif;
+  font-size:22px;
+  font-weight:400;
+  letter-spacing:-0.01em;
+  color:var(--ink);
+  line-height:1;
+  margin-bottom:3px;
+}
+.header-titles p{
+  font-size:12px;
+  color:var(--ink3);
+  font-weight:400;
+  letter-spacing:0.01em;
+}
+
+.theme-toggle{
+  background:var(--paper);
+  border:1px solid var(--bg2);
+  border-radius:8px;
+  padding:7px 14px;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-family:'DM Sans',sans-serif;
+  font-size:13px;
+  font-weight:500;
+  color:var(--ink2);
+  transition:all 0.15s;
+  box-shadow:var(--shadow);
+}
+.theme-toggle:hover{border-color:var(--gold-line);color:var(--ink)}
+.theme-icon{font-size:15px}
+
+/* ===== DISCLAIMER ===== */
+.disclaimer{
+  background:var(--amber-bg);
+  border:1px solid var(--amber-border);
+  border-radius:10px;
+  padding:13px 16px;
+  margin-bottom:28px;
+  display:flex;
+  gap:11px;
+  align-items:flex-start;
+}
+.disclaimer-icon{font-size:16px;flex-shrink:0;margin-top:1px}
+.disclaimer p{font-size:13px;color:var(--ink2);line-height:1.55}
+.disclaimer strong{font-weight:600;color:var(--ink)}
+
+/* ===== INPUT CARD ===== */
+.input-card{
+  background:var(--paper);
+  border:1px solid var(--bg2);
+  border-radius:12px;
+  padding:22px 24px 18px;
+  box-shadow:var(--shadow);
+  margin-bottom:24px;
+}
+
+.input-top-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:12px;
+}
+.input-label{
+  font-size:12px;
+  font-weight:600;
+  color:var(--ink3);
+  letter-spacing:0.06em;
+  text-transform:uppercase;
+}
+.char-count{font-size:12px;color:var(--ink3)}
+
+textarea{
+  width:100%;
+  background:var(--paper2);
+  border:1px solid var(--bg2);
+  border-radius:8px;
+  outline:none;
+  resize:none;
+  min-height:96px;
+  padding:12px 14px;
+  font-family:'DM Sans',sans-serif;
+  font-size:15px;
+  color:var(--ink);
+  line-height:1.6;
+  transition:border-color 0.15s;
+}
+textarea:focus{border-color:var(--gold2)}
+textarea::placeholder{color:var(--ink3);opacity:0.7}
+
+.input-bottom-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-top:14px;
+  gap:12px;
+  flex-wrap:wrap;
+}
+
+.chips-wrap{display:flex;flex-wrap:wrap;gap:6px}
+
+.chip{
+  background:var(--paper2);
+  border:1px solid var(--bg2);
+  border-radius:6px;
+  padding:4px 11px;
+  font-family:'DM Sans',sans-serif;
+  font-size:12px;
+  font-weight:400;
+  color:var(--ink3);
+  cursor:pointer;
+  transition:all 0.12s;
+}
+.chip:hover{border-color:var(--gold2);color:var(--gold);background:var(--paper)}
+
+.btn-analyze{
+  background:var(--ink);
+  border:1px solid var(--ink);
+  border-radius:8px;
+  color:#fff;
+  font-family:'DM Sans',sans-serif;
+  font-size:13px;
+  font-weight:600;
+  padding:9px 22px;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  transition:all 0.15s;
+  white-space:nowrap;
+  flex-shrink:0;
+}
+.btn-analyze:hover{background:var(--gold);border-color:var(--gold)}
+.btn-analyze:active{transform:scale(0.98)}
+.btn-analyze:disabled{opacity:0.4;cursor:not-allowed;transform:none}
+.btn-analyze svg{width:14px;height:14px}
+
+/* ===== PROGRESS BAR LOADING ===== */
+.loading-block{
+  display:none;
+  background:var(--paper);
+  border:1px solid var(--bg2);
+  border-radius:12px;
+  padding:24px 26px;
+  box-shadow:var(--shadow);
+  margin-bottom:24px;
+}
+.loading-block.on{display:block}
+
+.load-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:14px;
+}
+.load-title{
+  font-size:13px;
+  font-weight:600;
+  color:var(--ink);
+}
+.load-pct{
+  font-size:13px;
+  font-weight:600;
+  color:var(--gold2);
+  font-variant-numeric:tabular-nums;
+  min-width:36px;
+  text-align:right;
+}
+
+/* Progress track */
+.progress-track{
+  height:6px;
+  background:var(--bg2);
+  border-radius:99px;
+  overflow:hidden;
+  margin-bottom:14px;
+  position:relative;
+}
+.progress-fill{
+  height:100%;
+  border-radius:99px;
+  background:linear-gradient(90deg,var(--gold3),var(--gold2));
+  width:0%;
+  transition:width 0.5s ease;
+  position:relative;
+}
+.progress-fill::after{
+  content:'';
+  position:absolute;
+  right:0;top:0;bottom:0;
+  width:30px;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,0.3));
+  border-radius:99px;
+}
+
+/* Steps */
+.load-steps{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+.load-step{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  font-size:13px;
+  color:var(--ink3);
+  transition:color 0.2s;
+}
+.load-step.active{color:var(--ink)}
+.load-step.done{color:var(--green)}
+.step-dot{
+  width:7px;height:7px;
+  border-radius:50%;
+  background:var(--bg2);
+  flex-shrink:0;
+  transition:background 0.2s;
+}
+.load-step.active .step-dot{background:var(--gold2);animation:pulse-dot 1s ease-in-out infinite}
+.load-step.done .step-dot{background:var(--green)}
+@keyframes pulse-dot{0%,100%{opacity:1}50%{opacity:0.4}}
+
+.step-label{font-size:13px}
+
+/* ===== ERROR ===== */
+.err-box{
+  display:none;
+  background:var(--red-bg);
+  border:1px solid var(--red-border);
+  border-radius:10px;
+  padding:13px 16px;
+  font-size:13px;
+  color:var(--red);
+  margin-bottom:20px;
+}
+.err-box.on{display:block}
+
+/* ===== RESULTS ===== */
+#results{display:none;margin-top:4px}
+#results.on{display:block}
+
+.results-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:16px;
+  padding-bottom:14px;
+  border-bottom:1px solid var(--bg2);
+}
+.results-title-group h2{
+  font-family:'DM Serif Display',serif;
+  font-size:22px;
+  font-weight:400;
+  color:var(--ink);
+  margin-bottom:3px;
+}
+.results-title-group p{font-size:13px;color:var(--ink3)}
+
+.sev-pill{
+  font-size:11px;
+  font-weight:600;
+  letter-spacing:0.08em;
+  text-transform:uppercase;
+  padding:5px 13px;
+  border-radius:20px;
+  border:1px solid;
+  white-space:nowrap;
+}
+.sev-crime{color:var(--red);border-color:var(--red-border);background:var(--red-bg)}
+.sev-delit{color:var(--amber);border-color:var(--amber-border);background:var(--amber-bg)}
+.sev-contravention{color:var(--green);border-color:var(--green-border);background:var(--green-bg)}
+
+.summary-card{
+  background:var(--blue-bg);
+  border:1px solid var(--blue-border);
+  border-radius:10px;
+  padding:14px 18px;
+  margin-bottom:20px;
+  font-size:14px;
+  color:var(--ink2);
+  line-height:1.6;
+}
+.summary-card strong{font-weight:600;color:var(--blue)}
+
+/* ===== ARTICLE CARD ===== */
+.art-card{
+  background:var(--paper);
+  border:1px solid var(--bg2);
+  border-radius:12px;
+  overflow:hidden;
+  margin-bottom:14px;
+  box-shadow:var(--shadow);
+  opacity:0;
+  transform:translateY(8px);
+  animation:fadeUp 0.3s ease forwards;
+}
+@keyframes fadeUp{to{opacity:1;transform:translateY(0)}}
+.art-card:nth-child(1){animation-delay:0s}
+.art-card:nth-child(2){animation-delay:.07s}
+.art-card:nth-child(3){animation-delay:.14s}
+.art-card:nth-child(4){animation-delay:.21s}
+.art-card:nth-child(5){animation-delay:.28s}
+
+/* Color-coded left border by type */
+.art-card.type-crime{border-left:3px solid var(--red)}
+.art-card.type-delit{border-left:3px solid var(--amber)}
+.art-card.type-contravention{border-left:3px solid var(--green)}
+
+.art-card-header{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:12px;
+  padding:16px 20px 12px;
+  border-bottom:1px solid var(--bg2);
+  background:var(--paper2);
+}
+.art-ref{
+  font-size:11px;
+  font-weight:600;
+  color:var(--gold);
+  letter-spacing:0.07em;
+  text-transform:uppercase;
+  margin-bottom:4px;
+}
+.art-title{
+  font-family:'DM Serif Display',serif;
+  font-size:18px;
+  font-weight:400;
+  color:var(--ink);
+  line-height:1.3;
+}
+.art-badge{
+  font-size:11px;
+  font-weight:600;
+  letter-spacing:0.06em;
+  text-transform:uppercase;
+  padding:4px 11px;
+  border-radius:20px;
+  border:1px solid;
+  white-space:nowrap;
+  flex-shrink:0;
+  margin-top:2px;
+}
+.badge-crime{color:var(--red);border-color:var(--red-border);background:var(--red-bg)}
+.badge-delit{color:var(--amber);border-color:var(--amber-border);background:var(--amber-bg)}
+.badge-contravention{color:var(--green);border-color:var(--green-border);background:var(--green-bg)}
+
+.art-body{padding:16px 20px}
+
+.art-quote{
+  font-size:14px;
+  color:var(--ink2);
+  line-height:1.65;
+  border-left:2px solid var(--bg2);
+  padding-left:14px;
+  margin-bottom:14px;
+  font-style:italic;
+}
+
+.art-meta-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+
+.art-meta-item{
+  background:var(--paper2);
+  border:1px solid var(--bg2);
+  border-radius:8px;
+  padding:10px 13px;
+}
+.meta-label{
+  font-size:10px;
+  font-weight:600;
+  text-transform:uppercase;
+  letter-spacing:0.08em;
+  color:var(--ink3);
+  margin-bottom:4px;
+}
+.meta-value{
+  font-size:13px;
+  color:var(--ink2);
+  line-height:1.45;
+}
+
+/* ===== EMPTY ===== */
+.empty{
+  text-align:center;
+  padding:48px 0;
+  color:var(--ink3);
+  font-size:15px;
+}
+
+/* ===== HISTORY ===== */
+.history{
+  margin-top:40px;
+  padding-top:28px;
+  border-top:1px solid var(--bg2);
+  display:none;
+}
+.history.on{display:block}
+.history-label{
+  font-size:11px;
+  font-weight:600;
+  text-transform:uppercase;
+  letter-spacing:0.1em;
+  color:var(--ink3);
+  margin-bottom:12px;
+}
+.hist-row{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:9px 14px;
+  background:var(--paper);
+  border:1px solid var(--bg2);
+  border-radius:8px;
+  margin-bottom:7px;
+  cursor:pointer;
+  transition:border-color 0.12s,background 0.12s;
+  font-size:13px;
+}
+.hist-row:hover{border-color:var(--gold-line);background:var(--paper2)}
+.hist-num{font-size:11px;font-weight:600;color:var(--ink3);width:18px;text-align:center;flex-shrink:0}
+.hist-text{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--ink2)}
+.hist-count{font-size:11px;font-weight:600;color:var(--gold);flex-shrink:0}
+.hist-icon{color:var(--ink3);flex-shrink:0}
+
+/* ===== RECOMMENDATIONS ===== */
+.reco-section{
+  margin-top:28px;
+  padding-top:24px;
+  border-top:1px solid var(--bg2);
+}
+.reco-heading{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:16px;
+}
+.reco-heading h3{
+  font-family:'DM Serif Display',serif;
+  font-size:18px;
+  font-weight:400;
+  color:var(--ink);
+}
+.reco-heading .reco-icon{
+  width:28px;height:28px;
+  background:var(--blue-bg);
+  border:1px solid var(--blue-border);
+  border-radius:6px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;
+  flex-shrink:0;
+}
+.reco-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+@media(max-width:520px){.reco-grid{grid-template-columns:1fr}}
+
+.reco-card{
+  background:var(--paper);
+  border:1px solid var(--bg2);
+  border-radius:10px;
+  padding:14px 16px;
+  box-shadow:var(--shadow);
+  opacity:0;
+  transform:translateY(6px);
+  animation:fadeUp 0.3s ease forwards;
+}
+.reco-card:nth-child(1){animation-delay:.05s}
+.reco-card:nth-child(2){animation-delay:.1s}
+.reco-card:nth-child(3){animation-delay:.15s}
+.reco-card:nth-child(4){animation-delay:.2s}
+
+.reco-card-top{
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+  margin-bottom:8px;
+}
+.reco-num{
+  width:22px;height:22px;
+  background:var(--blue-bg);
+  border:1px solid var(--blue-border);
+  border-radius:5px;
+  font-size:11px;
+  font-weight:700;
+  color:var(--blue);
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+  margin-top:1px;
+}
+.reco-title{
+  font-size:14px;
+  font-weight:600;
+  color:var(--ink);
+  line-height:1.35;
+}
+.reco-desc{
+  font-size:13px;
+  color:var(--ink3);
+  line-height:1.55;
+  padding-left:32px;
+}
+.reco-urgency{
+  display:inline-block;
+  margin-top:8px;
+  margin-left:32px;
+  font-size:11px;
+  font-weight:600;
+  letter-spacing:0.06em;
+  text-transform:uppercase;
+  padding:3px 9px;
+  border-radius:20px;
+  border:1px solid;
+}
+.urgency-high{color:var(--red);border-color:var(--red-border);background:var(--red-bg)}
+.urgency-med{color:var(--amber);border-color:var(--amber-border);background:var(--amber-bg)}
+.urgency-low{color:var(--green);border-color:var(--green-border);background:var(--green-bg)}
+
+.reco-full{
+  grid-column:1/-1;
+}
+.reco-full .reco-desc{
+  margin-top:4px;
+}
+
+/* ===== FOOTER ===== */
+footer{
+  margin-top:60px;
+  padding-top:20px;
+  border-top:1px solid var(--bg2);
+  text-align:center;
+  font-size:12px;
+  color:var(--ink3);
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="header-left">
+      <div class="logo-box">
+        <svg viewBox="0 0 24 24"><path d="M12 2L3 7v5c0 5.25 3.75 10.2 9 11.25C17.25 22.2 21 17.25 21 12V7L12 2z"/><path d="M9 12l2 2 4-4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="header-titles">
+        <h1>LEXIA</h1>
+        <p>Identification des infractions pénales · Code pénal français</p>
+      </div>
+    </div>
+    <button class="theme-toggle" onclick="toggleTheme()">
+      <span class="theme-icon" id="themeIcon">☀️</span>
+      <span id="themeLabel">Mode clair</span>
+    </button>
+  </header>
+
+  <div class="disclaimer">
+    <span class="disclaimer-icon">⚠️</span>
+    <p><strong>Usage pédagogique uniquement.</strong> Cet outil identifie les articles du Code pénal potentiellement applicables. Il ne constitue pas un avis juridique. Pour toute situation réelle, consultez un avocat qualifié.</p>
+  </div>
+
+  <main class="main-grid">
+    <section class="main-left">
+      <div class="input-card">
+        <div class="input-top-row">
+          <span class="input-label">Description des faits</span>
+          <span class="char-count" id="charCount">0 / 1200</span>
+        </div>
+        <textarea id="promptInput" maxlength="1200" placeholder="Ex : Une personne accède sans autorisation au compte bancaire d'une autre et transfère des fonds vers un compte tiers…"></textarea>
+        <div class="input-bottom-row">
+          <div class="chips-wrap" id="chipsWrap"></div>
+          <button class="btn-analyze" id="submitBtn" onclick="analyze()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+              <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
+            </svg>
+            Analyser
+          </button>
+        </div>
+      </div>
+
+      <!-- LOADING PROGRESS BLOCK -->
+      <div class="loading-block" id="loadingBlock">
+        <div class="load-header">
+          <span class="load-title" id="loadTitle">Analyse en cours…</span>
+          <span class="load-pct" id="loadPct">0%</span>
+        </div>
+        <div class="progress-track">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+        <div class="load-steps" id="loadSteps"></div>
+      </div>
+
+      <div class="err-box" id="errBox"></div>
+
+      <div id="results">
+        <div class="results-header">
+          <div class="results-title-group">
+            <h2 id="resTitle">Articles identifiés</h2>
+            <p id="resSubtitle"></p>
+          </div>
+          <div id="sevBadge"></div>
+        </div>
+        <div class="summary-card" id="summaryCard"></div>
+        <div id="cards"></div>
+      </div>
+    </section>
+
+    <aside class="main-right">
+      <div class="history" id="historySec">
+        <div class="history-label">Historique des consultations</div>
+        <div id="historyList"></div>
+      </div>
+    </aside>
+  </main>
+
+  <footer>LEXIA · Outil d'information juridique · Basé sur le Code pénal français en vigueur</footer>
+</div>
+
+<script>
+// ===== THEME =====
+const root=document.documentElement;
+function toggleTheme(){
+  const dark=root.getAttribute('data-theme')==='dark';
+  root.setAttribute('data-theme',dark?'light':'dark');
+  document.getElementById('themeIcon').textContent=dark?'☀️':'🌙';
+  document.getElementById('themeLabel').textContent=dark?'Mode clair':'Mode sombre';
+  localStorage.setItem('lexia-theme',dark?'light':'dark');
+}
+(function(){
+  const s=localStorage.getItem('lexia-theme')||'light';
+  root.setAttribute('data-theme',s);
+  if(s==='dark'){document.getElementById('themeIcon').textContent='🌙';document.getElementById('themeLabel').textContent='Mode sombre'}
+})();
+
+// ===== CHIPS =====
+const examples=["Vol avec violence","Usurpation d'identité","Harcèlement moral","Fraude informatique","Abus de confiance","Conduite en état d'ivresse"];
+const cw=document.getElementById('chipsWrap');
+examples.forEach(e=>{
+  const b=document.createElement('button');b.className='chip';b.textContent=e;
+  b.onclick=()=>{document.getElementById('promptInput').value=e;upd()};
+  cw.appendChild(b);
+});
+
+const ta=document.getElementById('promptInput');
+ta.addEventListener('input',upd);
+ta.addEventListener('keydown',ev=>{if(ev.key==='Enter'&&(ev.ctrlKey||ev.metaKey))analyze()});
+function upd(){document.getElementById('charCount').textContent=ta.value.length+' / 1200'}
+
+// ===== PROGRESS BAR =====
+const STEPS=[
+  {label:'Analyse sémantique des faits',pct:20},
+  {label:'Consultation du Code pénal',pct:42},
+  {label:'Identification des infractions',pct:62},
+  {label:'Vérification des sanctions',pct:80},
+  {label:'Rédaction du rapport',pct:95},
+];
+
+let progInterval=null;
+let currentStep=0;
+let currentPct=0;
+let targetPct=0;
+let animFrame=null;
+
+function buildSteps(){
+  const c=document.getElementById('loadSteps');
+  c.innerHTML='';
+  STEPS.forEach((s,i)=>{
+    const div=document.createElement('div');
+    div.className='load-step';
+    div.id='step-'+i;
+    div.innerHTML=`<span class="step-dot"></span><span class="step-label">${s.label}</span>`;
+    c.appendChild(div);
+  });
+}
+
+function animatePct(to){
+  targetPct=to;
+  if(animFrame)cancelAnimationFrame(animFrame);
+  function tick(){
+    currentPct+=(targetPct-currentPct)*0.12;
+    if(Math.abs(targetPct-currentPct)<0.3)currentPct=targetPct;
+    const pct=Math.round(currentPct);
+    document.getElementById('progressFill').style.width=currentPct+'%';
+    document.getElementById('loadPct').textContent=pct+'%';
+    if(currentPct<targetPct)animFrame=requestAnimationFrame(tick);
+  }
+  animFrame=requestAnimationFrame(tick);
+}
+
+function setStepActive(idx){
+  STEPS.forEach((_,i)=>{
+    const el=document.getElementById('step-'+i);
+    if(!el)return;
+    el.classList.remove('active','done');
+    if(i<idx)el.classList.add('done');
+    else if(i===idx)el.classList.add('active');
+  });
+}
+
+function startProgress(){
+  buildSteps();
+  currentStep=0;currentPct=0;targetPct=0;
+  document.getElementById('progressFill').style.width='0%';
+  document.getElementById('loadPct').textContent='0%';
+  document.getElementById('loadTitle').textContent='Analyse en cours…';
+  document.getElementById('loadingBlock').classList.add('on');
+  document.getElementById('submitBtn').disabled=true;
+
+  animatePct(STEPS[0].pct);
+  setStepActive(0);
+  currentStep=1;
+
+  progInterval=setInterval(()=>{
+    if(currentStep>=STEPS.length)return;
+    animatePct(STEPS[currentStep].pct);
+    setStepActive(currentStep);
+    currentStep++;
+  },1300);
+}
+
+function finishProgress(){
+  clearInterval(progInterval);
+  STEPS.forEach((_,i)=>{
+    const el=document.getElementById('step-'+i);
+    if(el){el.classList.remove('active');el.classList.add('done')}
+  });
+  animatePct(100);
+  document.getElementById('loadTitle').textContent='Analyse terminée';
+  setTimeout(()=>{
+    document.getElementById('loadingBlock').classList.remove('on');
+    document.getElementById('submitBtn').disabled=false;
+  },600);
+}
+
+function cancelProgress(){
+  clearInterval(progInterval);
+  document.getElementById('loadingBlock').classList.remove('on');
+  document.getElementById('submitBtn').disabled=false;
+}
+
+// ===== ANALYZE =====
+let hist=[];
+
+async function analyze(){
+  const q=ta.value.trim();if(!q)return;
+  document.getElementById('errBox').classList.remove('on');
+  document.getElementById('results').classList.remove('on');
+  startProgress();
+
+  const sys=`Tu es un expert en droit pénal français et conseiller juridique. Identifie les infractions pénales du Code pénal français applicables ET fournis des recommandations pratiques.
+Réponds UNIQUEMENT en JSON valide, sans texte avant ni après, sans balises markdown.
+Format exact :
+{"resume":"...","severite":"crime","articles":[{"reference":"Art. xxx CP","titre":"...","type":"crime","texte":"...","peine":"...","pertinence":"..."}],"recommandations":[{"titre":"...","description":"...","urgence":"haute"}]}
+- severite: "crime", "delit" ou "contravention"
+- type identique pour chaque article
+- urgence: "haute", "moyenne" ou "faible"
+- 2 a 5 articles pertinents, 3 a 4 recommandations concretes (deposer plainte, contacter avocat, rassembler preuves, contacter autorite)
+- Ne fabrique pas d articles inexistants`;
+
+  try{
+    const r=await fetch("https://api.anthropic.com/v1/messages",{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:1000,system:sys,messages:[{role:"user",content:q}]})
+    });
+    const d=await r.json();
+    const raw=d.content.map(c=>c.text||"").join("");
+    const parsed=JSON.parse(raw.replace(/```json|```/g,"").trim());
+    finishProgress();
+    setTimeout(()=>render(parsed,q),650);
+    hist.unshift({q,n:parsed.articles.length});
+    if(hist.length>5)hist.pop();
+    renderHist();
+  }catch(err){
+    cancelProgress();
+    const eb=document.getElementById('errBox');
+    eb.textContent="Erreur lors de l'analyse. Vérifiez votre connexion et réessayez.";
+    eb.classList.add('on');
+  }
+}
+
+function render(data,q){
+  const sevLabels={crime:"Crime",delit:"Délit",contravention:"Contravention"};
+  const sevCls={crime:"sev-crime",delit:"sev-delit",contravention:"sev-contravention"};
+  const badgeCls={crime:"badge-crime",delit:"badge-delit",contravention:"badge-contravention"};
+  const n=data.articles.length;
+
+  document.getElementById('resTitle').textContent=n+' article'+(n>1?'s':'')+' identifié'+(n>1?'s':'');
+  document.getElementById('resSubtitle').textContent='Pour : '+q.substring(0,60)+(q.length>60?'…':'');
+  document.getElementById('sevBadge').innerHTML=`<span class="sev-pill ${sevCls[data.severite]||'sev-delit'}">${sevLabels[data.severite]||'Délit'}</span>`;
+  document.getElementById('summaryCard').innerHTML=`<strong>Qualification :</strong> `+esc(data.resume);
+
+  const c=document.getElementById('cards');c.innerHTML='';
+  if(!n){
+    c.innerHTML='<div class="empty">Aucune infraction pénale identifiée pour cette situation.</div>';
+  }else{
+    data.articles.forEach((a,i)=>{
+      const div=document.createElement('div');
+      div.className='art-card type-'+(a.type||'delit');
+      div.style.animationDelay=(i*0.07)+'s';
+      div.innerHTML=`
+        <div class="art-card-header">
+          <div>
+            <div class="art-ref">${esc(a.reference)}</div>
+            <div class="art-title">${esc(a.titre)}</div>
+          </div>
+          <span class="art-badge ${badgeCls[a.type]||'badge-delit'}">${{crime:'Crime',delit:'Délit',contravention:'Contravention'}[a.type]||'Délit'}</span>
+        </div>
+        <div class="art-body">
+          <div class="art-quote">${esc(a.texte)}</div>
+          <div class="art-meta-grid">
+            <div class="art-meta-item">
+              <div class="meta-label">Peine encourue</div>
+              <div class="meta-value">${esc(a.peine)}</div>
+            </div>
+            <div class="art-meta-item">
+              <div class="meta-label">Pertinence</div>
+              <div class="meta-value">${esc(a.pertinence)}</div>
+            </div>
+          </div>
+        </div>`;
+      c.appendChild(div);
+    });
+  }
+  // Recommandations
+  const existReco=document.getElementById('recoSection');
+  if(existReco)existReco.remove();
+  const recos=data.recommandations||[];
+  if(recos.length){
+    const sec=document.createElement('div');
+    sec.className='reco-section';sec.id='recoSection';
+    sec.innerHTML=`<div class="reco-heading"><div class="reco-icon">💡</div><h3>Recommandations</h3></div><div class="reco-grid" id="recoGrid"></div>`;
+    c.after(sec);
+    const grid=sec.querySelector('#recoGrid');
+    const urgMap={haute:'urgency-high',moyenne:'urgency-med',faible:'urgency-low'};
+    const urgLabel={haute:'Urgent',moyenne:'Important',faible:'Conseillé'};
+    recos.forEach((r,i)=>{
+      const rd=document.createElement('div');
+      rd.className='reco-card'+(recos.length===3&&i===2?' reco-full':'');
+      rd.style.animationDelay=(i*0.06)+'s';
+      const ucls=urgMap[r.urgence]||'urgency-med';
+      const ulbl=urgLabel[r.urgence]||'Important';
+      rd.innerHTML=`<div class="reco-card-top"><span class="reco-num">${i+1}</span><span class="reco-title">${esc(r.titre)}</span></div><div class="reco-desc">${esc(r.description)}</div><span class="reco-urgency ${ucls}">${ulbl}</span>`;
+      grid.appendChild(rd);
+    });
+  }
+
+  const res=document.getElementById('results');
+  res.classList.add('on');
+  res.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function renderHist(){
+  const sec=document.getElementById('historySec');
+  const list=document.getElementById('historyList');
+  if(!hist.length){sec.classList.remove('on');return}
+  sec.classList.add('on');list.innerHTML='';
+  hist.forEach((h,i)=>{
+    const row=document.createElement('div');
+    row.className='hist-row';
+    row.innerHTML=`<span class="hist-num">${i+1}</span><span class="hist-text">${esc(h.q)}</span><span class="hist-count">${h.n} art.</span>`;
+    row.onclick=()=>{ta.value=h.q;upd();window.scrollTo({top:0,behavior:'smooth'})};
+    list.appendChild(row);
+  });
+}
+
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+</script>
+</body>
+</html>
